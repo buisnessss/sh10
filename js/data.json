@@ -1,0 +1,86 @@
+{
+  "nitki": [
+    {
+      "id": "nitki-1",
+      "title": "Нитки полиэстер 100м",
+      "price": 350,
+      "unit": "шт",
+      "image": "../images/nitki_item1.jpg"
+    },
+    {
+      "id": "nitki-2",
+      "title": "Нитки хлопковые 200м",
+      "price": 450,
+      "unit": "шт",
+      "image": "../images/nitki_item2.jpg"
+    },
+    {
+      "id": "nitki-3",
+      "title": "Нитки армированные",
+      "price": 550,
+      "unit": "шт",
+      "image": "../images/nitki_item3.jpg"
+    },
+    {
+      "id": "nitki-4",
+      "title": "Нитки люрекс",
+      "price": 700,
+      "unit": "шт",
+      "image": "../images/nitki_item4.jpg"
+    }
+  ],
+  "zamki": [
+    {
+      "id": "zamok-20",
+      "title": "Замок 20 см",
+      "price": 300,
+      "unit": "шт",
+      "image": "../images/zamok_20.jpg"
+    },
+    {
+      "id": "zamok-50",
+      "title": "Замок 50 см",
+      "price": 450,
+      "unit": "шт",
+      "image": "../images/zamok_50.jpg"
+    },
+    {
+      "id": "zamok-roll",
+      "title": "Замок рулонный (по метру)",
+      "price": 250,
+      "unit": "м",
+      "image": "../images/zamok_roll.jpg",
+      "step": 1,
+      "min": 1
+    }
+  ],
+  "pugovitsy": [
+    {
+      "id": "pug-1",
+      "title": "Пуговица пластиковая (10 шт.)",
+      "price": 150,
+      "unit": "шт"
+    },
+    {
+      "id": "pug-2",
+      "title": "Пуговица металлическая 15 мм",
+      "price": 180,
+      "unit": "шт"
+    }
+  ],
+  "furnitura": [
+    {
+      "id": "luv-8",
+      "title": "Люверсы 8 мм (10 шт.)",
+      "price": 250,
+      "unit": "шт"
+    },
+    {
+      "id": "kr-10",
+      "title": "Крючки металлические (10 шт.)",
+      "price": 300,
+      "unit": "шт"
+    }
+  ],
+  "prochee": []
+}
