@@ -203,3 +203,156 @@ async function loadCategory(cat){
 function formatQty(val, step){ if(!step) return String(Math.round(val)); if(step >= 1) return String(Math.max(1,Math.round(val))); const precision = (step.toString().split('.')[1] || '').length; return Number(Number(Math.round(val/step)*step).toFixed(precision)).toString(); }
 
 window.addEventListener("load", init);
+// =======================
+// 🧺 Плавающая корзина
+// =======================
+(function() {
+  const CART_KEY = 'floating_cart';
+  const cartButton = document.createElement('div');
+  cartButton.id = 'floating-cart-btn';
+  cartButton.innerHTML = '🧺<span id="cart-count">0</span>';
+  document.body.appendChild(cartButton);
+
+  const cartPanel = document.createElement('div');
+  cartPanel.id = 'cart-panel';
+  cartPanel.innerHTML = `
+    <div class="cart-header">
+      <h3>Корзина</h3>
+      <button id="close-cart">✖</button>
+    </div>
+    <div id="cart-items"></div>
+    <div class="cart-footer">
+      <button id="clear-cart">Очистить</button>
+      <button id="checkout">Оформить</button>
+    </div>
+  `;
+  document.body.appendChild(cartPanel);
+
+  // =======================
+  // 🛒 Функции корзины
+  // =======================
+  let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+
+  function saveCart() {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    updateCartCount();
+  }
+
+  function updateCartCount() {
+    document.getElementById('cart-count').textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cart-items');
+    container.innerHTML = '';
+    if (cart.length === 0) {
+      container.innerHTML = '<p>Корзина пуста</p>';
+      return;
+    }
+    cart.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'cart-item';
+      el.innerHTML = `
+        <div>${item.name}</div>
+        <div>
+          <button class="decrease" data-id="${item.id}">−</button>
+          <span>${item.quantity}</span>
+          <button class="increase" data-id="${item.id}">+</button>
+        </div>
+        <div>${item.price * item.quantity} ₸</div>
+        <button class="remove" data-id="${item.id}">🗑</button>
+      `;
+      container.appendChild(el);
+    });
+  }
+
+  function addToCart(id, name, price) {
+    const existing = cart.find(i => i.id === id);
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push({ id, name, price: parseFloat(price), quantity: 1 });
+    }
+    saveCart();
+  }
+
+  // =======================
+  // 🧩 Обработчики
+  // =======================
+  document.body.addEventListener('click', e => {
+    if (e.target.classList.contains('add-to-cart')) {
+      const btn = e.target;
+      addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
+    }
+    if (e.target.id === 'floating-cart-btn') {
+      cartPanel.classList.toggle('open');
+      renderCart();
+    }
+    if (e.target.id === 'close-cart') cartPanel.classList.remove('open');
+    if (e.target.id === 'clear-cart') { cart = []; saveCart(); renderCart(); }
+    if (e.target.id === 'checkout') {
+      const phone = ''; // 📱 укажи номер WhatsApp здесь
+      const orderText = cart.map(i => `${i.name} — ${i.quantity} x ${i.price}₸ = ${i.quantity * i.price}₸`).join('\n');
+      if (phone) {
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent('Заказ:\n' + orderText)}`;
+        window.open(url, '_blank');
+      } else {
+        alert('Ваш заказ:\n' + orderText);
+      }
+    }
+    if (e.target.classList.contains('increase')) {
+      const id = e.target.dataset.id;
+      const item = cart.find(i => i.id === id);
+      item.quantity++;
+      saveCart();
+      renderCart();
+    }
+    if (e.target.classList.contains('decrease')) {
+      const id = e.target.dataset.id;
+      const item = cart.find(i => i.id === id);
+      if (item.quantity > 1) item.quantity--;
+      saveCart();
+      renderCart();
+    }
+    if (e.target.classList.contains('remove')) {
+      cart = cart.filter(i => i.id !== e.target.dataset.id);
+      saveCart();
+      renderCart();
+    }
+  });
+
+  updateCartCount();
+})();
+
+// =======================
+// ⬆️ Кнопка "Вверх"
+// =======================
+(function() {
+  const btn = document.createElement('div');
+  btn.id = 'to-top';
+  btn.innerHTML = '⬆';
+  document.body.appendChild(btn);
+
+  window.addEventListener('scroll', () => {
+    btn.style.display = window.scrollY > 200 ? 'flex' : 'none';
+  });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
+// =======================
+// 🏷️ Логотип / Название = ссылка на главную
+// =======================
+(function() {
+  const selectors = ['.site-title', '.logo', '.brand', '.navbar-brand', 'header h1', 'h1.site-title'];
+  selectors.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      if (!el.querySelector('a')) {
+        const link = document.createElement('a');
+        link.href = 'index.html';
+        link.innerHTML = el.innerHTML;
+        el.innerHTML = '';
+        el.appendChild(link);
+      }
+    });
+  });
+})();
