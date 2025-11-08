@@ -78,3 +78,70 @@ a{text-decoration:none;color:inherit}
   .floating-cart-btn{right:12px;bottom:12px}
   #to-top{right:12px;bottom:72px}
 }
+/* 🧺 Плавающая корзина */
+#floating-cart-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ffcc00;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+#floating-cart-btn span {
+  background: red;
+  color: white;
+  font-size: 14px;
+  border-radius: 50%;
+  padding: 2px 6px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Панель корзины */
+#cart-panel {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: none;
+  flex-direction: column;
+  padding: 10px;
+  overflow-y: auto;
+  z-index: 1001;
+}
+#cart-panel.open { display: flex; }
+.cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; gap: 4px; margin-bottom: 6px; }
+.cart-item button { padding: 2px 6px; }
+.cart-footer { display: flex; justify-content: space-between; margin-top: 10px; }
+
+/* ⬆️ Кнопка "Вверх" */
+#to-top {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #ffcc00;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
